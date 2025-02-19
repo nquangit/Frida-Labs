@@ -1,10 +1,11 @@
 console.log("start Frida");
 setTimeout(function () {
     Java.perform(function () {
-        // Calling native function from Java
-        let addr = Module.getBaseAddress("libfrida0xb.so").add(0x0000); // Get base address of function
+        // Find the address of the instruction want to rewrite
+        let addr = Module.getBaseAddress("libfrida0xb.so").add(0x10E2A);
         console.log(addr);
-
+        
+        // Edit permission on Memory with size 0x1000
         Memory.protect(addr, 0x1000, "rwx");
         let mem_writer = new X86Writer(addr);
         try {
